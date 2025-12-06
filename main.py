@@ -9,7 +9,7 @@ import uvicorn
 print(response.text)
 
 '''def generate_response(question):
-    client = genai.Client(api_key="AIzaSyBS8fd9XLGpsQzQ5IKd_Tn-nSDXUZLwGmk")
+    client = genai.Client(api_key="")
     prompt = f"hello {question}"
     response = client.models.generate_content(
     model="gemini-2.5-flash", contents=prompt
