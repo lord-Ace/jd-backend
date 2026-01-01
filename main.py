@@ -1,26 +1,14 @@
-from google import genai
-import os
-import dotenv
-import uvicorn
+from fastapi import FastAPI
+from pydantic import BaseModel
+import response from gemini
 
+app = FastAPI(title="JD Analyser")
 
-
-
-print(response.text)
-
-'''def generate_response(question):
-    client = genai.Client(api_key="")
-    prompt = f"hello {question}"
-    response = client.models.generate_content(
-    model="gemini-2.5-flash", contents=prompt
-    )
-    return response.text'''
-
-
-def responses(question, authentication):
-    client = genai.Client(api_key=authentication)
-    try:
-        pass
-    except:
-        pass
-    return
+class Prompt(BaseModel):
+  prompt: str
+  
+@app.get("/")
+def baseURL():
+  return{"Message": "Welcome to JD Analyser"}
+  
+#@app.post("/analyse")
