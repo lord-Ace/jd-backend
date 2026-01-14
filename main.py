@@ -26,7 +26,10 @@ class Prompt(BaseModel):
   
 @app.get("/")
 def baseURL():
-  return{"Message": "Welcome to JD Analyser"}
+  return{
+    "status": "success"
+    "Message": "Welcome to JD Analyser"
+  }
 
 @app.post("/analyse/")
 async def post_request(request: Prompt):
