@@ -27,7 +27,7 @@ class Prompt(BaseModel):
 @app.get("/")
 def baseURL():
   return{
-    "status": "success"
+    "status": "success",
     "Message": "Welcome to JD Analyser"
   }
 
