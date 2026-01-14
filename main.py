@@ -19,7 +19,7 @@ class JDAnalysisOutput(BaseModel):
   important_keywords: List[str]
   tips: List[str]
 
-app = FastAPI(title="Lecture Analysis")
+app = FastAPI(title="JD Analysis")
 
 #cors
 origins = [
@@ -39,7 +39,7 @@ app.add_middleware(
 
 #prompt input schema
 class Prompt(BaseModel):
-  prompt: str = Field(..., min_length=1, description="Job description text to analyze")
+  prompt: str
   
 @app.get("/")
 def baseURL():
@@ -60,11 +60,10 @@ async def post_request(request: Prompt):
       "data": data
     }
   else:
-        # Extract error details safely
-        error_code = getattr(error, 'code', None)
-        error_message = str(error) if error else 'An unexpected error occurred'
+    # Extract error details safely
+    error_code = getattr(error, 'code', None)
+    error_message = str(error) if error else 'An unexpected error occurred'
         
-        raise HTTPException(
-            status_code=int(error_code) if error_code else 500,
-            detail=error_message
-        )
+    raise HTTPException(
+      status_code=int(error_code) if error_code else 500,
+      detail=error_message)
