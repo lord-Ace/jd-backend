@@ -1,5 +1,6 @@
 import json
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, ValidationError, Field
 from typing import Any, Type, List
 from gemini import response
@@ -19,6 +20,22 @@ class JDAnalysisOutput(BaseModel):
   tips: List[str]
 
 app = FastAPI(title="Lecture Analysis")
+
+#cors
+origins = [
+    "http://localhost:3000", 
+    "http://127.0.0.1:5500",
+    "http://localhost:8158",
+    "http://localhost:5173",
+    
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 #prompt input schema
 class Prompt(BaseModel):
