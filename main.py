@@ -60,10 +60,7 @@ async def post_request(request: Prompt):
       "data": data
     }
   else:
-    # Extract error details safely
-    error_code = getattr(error, 'code', None)
-    error_message = str(error) if error else 'An unexpected error occurred'
-        
-    raise HTTPException(
-      status_code=int(error_code) if error_code else 500,
-      detail=error_message)
+    raise HTTPEcxeption(
+      status_code=int(error.code) or 600,
+      detail=error.message or 'an unexpected error occoured, try again later'
+      )
