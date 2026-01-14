@@ -9,7 +9,7 @@ def response(
     question: str,
     output_schema: Type[BaseModel],
     instructions: Optional[Dict[str, Any]] = None,
-) -> Optional[BaseModel]:
+) -> Tuple[Optional[BaseModel], Optional[Exception]]:
     # values cleanup
     data = None
     error = None
@@ -35,7 +35,7 @@ def response(
     # api calling
     try:
         client = genai.Client()
-        response = client.models.generate_content_stream(
+        response = client.models.generate_content(
             model="gemini-2.5-flash",
             config=types.GenerateContentConfig(
                 system_instruction=system_instruction,
@@ -52,13 +52,17 @@ def response(
         
         if not output:
           raise ValueError('Unexpected End Of Output Try Again')
+          
+        return output, None
 
     except errors.ClientError as error:
       return None, error
       
     except errors.ServerError as error:
-      error.message = 'oops, we are currently experiencing issues with our server. try again later'
       return None, error
       
+    except ValidationError as e:
+      return None, Exception(f"Invalid response format: {str(e)}")
     except Exception as error:
       return None, error
+      

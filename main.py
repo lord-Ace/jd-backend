@@ -39,7 +39,7 @@ app.add_middleware(
 
 #prompt input schema
 class Prompt(BaseModel):
-  prompt: str
+  prompt: str = Field(..., min_length=1, description="Job description text to analyze")
   
 @app.get("/")
 def baseURL():
@@ -50,7 +50,7 @@ def baseURL():
 
 @app.post("/analyse/")
 async def post_request(request: Prompt):
-  data, error = response(question=request,
+  data, error = response(question=request.prompt,
   output_schema=JDAnalysisOutput,
   instructions=config)
   
@@ -60,7 +60,11 @@ async def post_request(request: Prompt):
       "data": data
     }
   else:
-    raise HTTPException(
-      status_code=int(error.code) if hasattr(error, 'code') else 500,
-    detail=error.message if hasattr(error, 'message') else 'An unexpected error occurred'
-    )
+        # Extract error details safely
+        error_code = getattr(error, 'code', None)
+        error_message = str(error) if error else 'An unexpected error occurred'
+        
+        raise HTTPException(
+            status_code=int(error_code) if error_code else 500,
+            detail=error_message
+        )
