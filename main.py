@@ -25,8 +25,8 @@ app = FastAPI(title="Lecture Analysis")
 origins = [
     "http://localhost:3000", 
     "http://127.0.0.1:5500",
-    "http://localhost:8158/",
-    "http://localhost:5173/"
+    "http://localhost:8158",
+    "http://localhost:5173"
     
 ]
 app.add_middleware(
