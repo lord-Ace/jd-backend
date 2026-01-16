@@ -1,2 +1,2 @@
 fastapi[standard]
--q -U google-genai
+google-genai
