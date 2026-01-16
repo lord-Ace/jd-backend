@@ -9,7 +9,7 @@ def response(
     question: str,
     output_schema: Type[BaseModel],
     instructions: Optional[Dict[str, Any]] = None,
-) -> Tuple[Optional[BaseModel], Optional[Exception]]:
+) ->Optional[BaseModel]:
     # Input validation
     if not question or not question.strip():
         raise ValueError("Question parameter cannot be empty")
