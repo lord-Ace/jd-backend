@@ -20,7 +20,6 @@ def response(
     config_instructions = instructions or {}
     system_instruction = config_instructions.get(
         "system_instruction",
-        "system_instruction",
         "You are a helpful AI assistant that provides accurate, structured responses.",
     )
     temperature = config_instructions.get("temperature", 1.0)

@@ -64,11 +64,3 @@ async def post_request(request: Prompt):
       status_code=int(error.code) or 600,
       detail=error.message or 'an unexpected error occoured, try again later'
       )
-
-if __name__ == "__main__":
-    import uvicorn
-    # To run this, install: pip install fastapi uvicorn google-genai pydantic
-    # Set your API Key: export GEMINI_API_KEY='YOUR_API_KEY'
-    # Then run: python main.py
-    print("\n--- Starting FastAPI Server on http://127.0.0.1:8000 ---\n")
-    uvicorn.run(app, host="127.0.0.1", port=8000)
