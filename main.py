@@ -40,7 +40,7 @@ app.add_middleware(
 
 #prompt input schema
 class Prompt(BaseModel):
-    prompt: str
+    prompt: str=Field(strip_whitespace=True)
   
 @app.get("/")
 def baseURL():
