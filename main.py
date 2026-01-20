@@ -41,17 +41,6 @@ app.add_middleware(
 #prompt input schema
 class Prompt(BaseModel):
     prompt: str
-
-#sanitize input
-    @field_validator('prompt')
-    @classmethod
-    def sanitize_prompt_text(cls, v: str) -> str:
-        if not v:
-            return v
-
-        v = "".join(ch for ch in v if ord(ch) >= 32 or ch in "\n\r\t")
-        v = re.sub(r' +', ' ', v)
-        return v.strip()
   
 @app.get("/")
 def baseURL():
@@ -62,7 +51,7 @@ def baseURL():
 
 @app.post("/analyse/")
 async def post_request(request: Prompt):
-  data, error = response(question=request.sanitize_prompt_text,
+  data, error = response(question=request.prompt,
   output_schema=JDAnalysisOutput,
   instructions=config)
   

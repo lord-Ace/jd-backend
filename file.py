@@ -76,3 +76,14 @@ var = 'None'
 
 avar = var or 27
 print(avar)
+
+sanitize input
+    @field_validator('prompt')
+    @classmethod
+    def sanitize_prompt_text(cls, v: str) -> str:
+        if not v:
+            return v
+
+        v = "".join(ch for ch in v if ord(ch) >= 32 or ch in "\n\r\t")
+        v = re.sub(r' +', ' ', v)
+        return v.strip()
