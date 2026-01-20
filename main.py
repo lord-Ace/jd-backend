@@ -49,10 +49,9 @@ class Prompt(BaseModel):
         if not v:
             return v
 
-        v = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f]', '', v)
-        
-        v = v.strip()
-        return v
+        v = "".join(ch for ch in v if ord(ch) >= 32 or ch in "\n\r\t")
+        v = re.sub(r' +', ' ', v)
+        return v.strip()
   
 @app.get("/")
 def baseURL():
