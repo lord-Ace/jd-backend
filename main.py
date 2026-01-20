@@ -1,9 +1,10 @@
 import json
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, ValidationError, Field
+from pydantic import BaseModel, ValidationError, Field, field_validator
 from typing import Any, Type, List
 from gemini import response
+import re
 
 #loaded json file containing LLM configuration
 with open("config.json", "r") as c:
@@ -39,7 +40,19 @@ app.add_middleware(
 
 #prompt input schema
 class Prompt(BaseModel):
-  prompt: str
+    prompt: str
+
+#sanitize input
+    @field_validator('prompt')
+    @classmethod
+    def sanitize_prompt_text(cls, v: str) -> str:
+        if not v:
+            return v
+
+        v = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f]', '', v)
+        
+        v = v.strip()
+        return v
   
 @app.get("/")
 def baseURL():
@@ -60,7 +73,7 @@ async def post_request(request: Prompt):
       "data": data
     }
   else:
-    raise HTTPEcxeption(
+    raise HTTPException(
       status_code=int(error.code) or 600,
       detail=error.message or 'an unexpected error occoured, try again later'
       )
