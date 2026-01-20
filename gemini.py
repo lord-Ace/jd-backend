@@ -9,7 +9,7 @@ def response(
     question: str,
     output_schema: Type[BaseModel],
     instructions: Optional[Dict[str, Any]] = None,
-) ->Optional[BaseModel]:
+):
     # Input validation
     if not question or not question.strip():
         raise ValueError("Question parameter cannot be empty")
@@ -61,5 +61,6 @@ def response(
     except ValidationError as e:
       return None, Exception(f"Invalid response format: {str(e)}")
     except Exception as error:
-      return None, error
+      goon="lolly"
+      return None, goon
       
