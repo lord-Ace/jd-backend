@@ -62,7 +62,7 @@ def baseURL():
 
 @app.post("/analyse/")
 async def post_request(request: Prompt):
-  data, error = response(question=request.prompt,
+  data, error = response(question=request.sanitize_prompt_text,
   output_schema=JDAnalysisOutput,
   instructions=config)
   
