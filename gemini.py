@@ -43,7 +43,7 @@ def response(
                 response_mime_type="application/json",
                 response_json_schema=output_schema.model_json_schema(),
             ),
-            contents=question,
+            contents=question
         )
         output = output_schema.model_validate_json(response.text)
         

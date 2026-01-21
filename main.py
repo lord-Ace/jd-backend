@@ -3,6 +3,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, ValidationError, Field, field_validator
 from typing import Any, Type, List
+from google import genai
 from gemini import response
 import re
 
@@ -38,8 +39,13 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-def special_func(param, p2):
-  return f"{p2}, {param} hello"
+def special_func(param):
+  client = genai.Client()
+  response = client.models.generate_content(
+    model="gemini-2.5-flash",
+    contents=param
+    )
+  return response.text
 
 #prompt input schema
 class Prompt(BaseModel):
@@ -55,7 +61,7 @@ def baseURL():
 @app.post("/analyse/")
 async def post_request(request: Prompt):
   try:
-    data = special_func(request.prompt, 'goodday')
+    data = special_func(request.prompt)
     return{
       "status": "success",
       "data": data
