@@ -38,9 +38,12 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+def special_func(param, p2):
+  return f"{p2}, {param} hello"
+
 #prompt input schema
 class Prompt(BaseModel):
-    prompt: str=Field(strip_whitespace=True)
+    prompt: str
   
 @app.get("/")
 def baseURL():
@@ -51,17 +54,15 @@ def baseURL():
 
 @app.post("/analyse/")
 async def post_request(request: Prompt):
-  data, error = response(question=request.prompt,
-  output_schema=JDAnalysisOutput,
-  instructions=config)
-  
-  if data:
+  try:
+    data = special_func(request.prompt, 'goodday')
     return{
       "status": "success",
       "data": data
     }
-  else:
+  
+  except Exception:
     raise HTTPException(
-      status_code=int(error.code) or 600,
-      detail=error.message or 'an unexpected error occoured, try again later'
+      status_code=500,
+      detail="error"
       )

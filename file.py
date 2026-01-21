@@ -87,3 +87,20 @@ sanitize input
         v = "".join(ch for ch in v if ord(ch) >= 32 or ch in "\n\r\t")
         v = re.sub(r' +', ' ', v)
         return v.strip()
+        
+        
+        
+data, error = response(question=request.prompt,
+  output_schema=JDAnalysisOutput,
+  instructions=config)
+  
+  if data:
+    return{
+      "status": "success",
+      "data": data
+    }
+  else:
+    raise HTTPException(
+      status_code=int(error.code) or 600,
+      detail=error.message or 'an unexpected error occoured, try again later'
+      )
