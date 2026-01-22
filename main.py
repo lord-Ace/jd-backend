@@ -46,16 +46,18 @@ def special_func(param):
     response = client.models.generate_content(
       model="gemini-2.5-flash",
       contents=param)
-      
-    output = response.text
     
-    '''if not output
-      raise ValueError('Unexpected End Of Output Try Again')'''
+    if not response.text:
+      raise ValueError('Unexpected End Of Output Try Again')
+    
+    output = response.text
     return output, None
     
   except errors.ClientError as error:
     return None, error
   except errors.ServerError as error:
+    return None, error
+  except Exception as error:
     return None, error
 
 #prompt input schema
@@ -84,6 +86,6 @@ async def post_request(request: Prompt):
   
   except Exception:
     raise HTTPException(
-      status_code=600,
+      status_code=560,
       detail="unknown error occoured"
       )
