@@ -47,7 +47,10 @@ def special_func(param):
       model="gemini-2.5-flash",
       contents=param
       )
-    return response.text, None
+      output=response.text
+      if not output
+        raise ValueError('Unexpected End Of Output Try Again')
+    return output, None
     
   except errors.ClientError as error:
     return None, error
