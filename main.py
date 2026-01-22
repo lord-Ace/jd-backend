@@ -46,9 +46,11 @@ def special_func(param):
     response = client.models.generate_content(
       model="gemini-2.5-flash",
       contents=param)
-    output=response.text
-    if not output
-      raise ValueError('Unexpected End Of Output Try Again')
+      
+    output = response.text
+    
+    '''if not output
+      raise ValueError('Unexpected End Of Output Try Again')'''
     return output, None
     
   except errors.ClientError as error:
