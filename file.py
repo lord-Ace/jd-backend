@@ -104,3 +104,25 @@ data, error = response(question=request.prompt,
       status_code=int(error.code) or 600,
       detail=error.message or 'an unexpected error occoured, try again later'
       )'''
+      
+      
+      @app.post("/analyse/")
+async def post_request(request: Prompt):
+  try:
+    data, error = special_func(request.prompt)
+    if data:
+      return{
+      "status": "success",
+      "data": data
+    }
+    elif error:
+      raise HTTPException(
+        status_code=int(error.code),
+        detail=error.message
+        )
+  
+  except Exception:
+    raise HTTPException(
+      status_code=600,
+      detail="unknown error occoured"
+      )

@@ -65,24 +65,3 @@ def baseURL():
     "status": "success",
     "Message": "Welcome to JD Analyser"
   }
-
-@app.post("/analyse/")
-async def post_request(request: Prompt):
-  try:
-    data, error = special_func(request.prompt)
-    if data:
-      return{
-      "status": "success",
-      "data": data
-    }
-    elif error:
-      raise HTTPException(
-        status_code=int(error.code),
-        detail=error.message
-        )
-  
-  except Exception:
-    raise HTTPException(
-      status_code=600,
-      detail="unknown error occoured"
-      )
