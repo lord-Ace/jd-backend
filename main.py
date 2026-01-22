@@ -50,10 +50,10 @@ def special_func(param):
     return response.text, None
     
   except errors.ClientError as error:
-      return None, error
+    return None, error
       
-    except errors.ServerError as error:
-      return None, error
+  except errors.ServerError as error:
+    return None, error
 
 #prompt input schema
 class Prompt(BaseModel):
