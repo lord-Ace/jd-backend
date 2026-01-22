@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, ValidationError, Field, field_validator
 from typing import Any, Type, List
 from google import genai
+from google.genai import errors
 from gemini import response
 import re
 
@@ -40,12 +41,19 @@ app.add_middleware(
 )
 
 def special_func(param):
-  client = genai.Client()
-  response = client.models.generate_content(
-    model="gemini-2.5-flash",
-    contents=param
-    )
-  return response.text
+  try:
+    client = genai.Client()
+    response = client.models.generate_content(
+      model="gemini-2.5-flash",
+      contents=param
+      )
+    return response.text, None
+    
+  except errors.ClientError as error:
+      return None, error
+      
+    except errors.ServerError as error:
+      return None, error
 
 #prompt input schema
 class Prompt(BaseModel):
@@ -61,14 +69,20 @@ def baseURL():
 @app.post("/analyse/")
 async def post_request(request: Prompt):
   try:
-    data = special_func(request.prompt)
-    return{
+    data, error = special_func(request.prompt)
+    if data:
+      return{
       "status": "success",
       "data": data
     }
+    elif error:
+      raise HTTPException(
+        status_code=int(error.code),
+        detail=error.message
+        )
   
   except Exception:
     raise HTTPException(
-      status_code=500,
-      detail="error"
+      status_code=600,
+      detail="unknown error occoured"
       )

@@ -72,7 +72,7 @@ with open("list.json", "w") as c:
   config = json.dump(new_list, c)
 print(new_list)'''
 
-var = 'None'
+'''var = 'None'
 
 avar = var or 27
 print(avar)
@@ -103,4 +103,4 @@ data, error = response(question=request.prompt,
     raise HTTPException(
       status_code=int(error.code) or 600,
       detail=error.message or 'an unexpected error occoured, try again later'
-      )
+      )'''
