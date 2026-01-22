@@ -45,16 +45,14 @@ def special_func(param):
     client = genai.Client()
     response = client.models.generate_content(
       model="gemini-2.5-flash",
-      contents=param
-      )
-      output=response.text
-      if not output
-        raise ValueError('Unexpected End Of Output Try Again')
+      contents=param)
+    output=response.text
+    if not output
+      raise ValueError('Unexpected End Of Output Try Again')
     return output, None
     
   except errors.ClientError as error:
     return None, error
-      
   except errors.ServerError as error:
     return None, error
 
@@ -76,13 +74,11 @@ async def post_request(request: Prompt):
     if data:
       return{
       "status": "success",
-      "data": data
-    }
+      "data": data}
     elif error:
       raise HTTPException(
         status_code=int(error.code),
-        detail=error.message
-        )
+        detail=error.message)
   
   except Exception:
     raise HTTPException(
