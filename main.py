@@ -86,8 +86,3 @@ async def post_request(request: Prompt):
   
   except HTTPException as http_exc:
     raise http_exc
-  
-  except Exception as err:
-    raise HTTPException(
-      status_code=500,
-      detail="an unknown error occoured")
