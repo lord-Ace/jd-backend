@@ -84,8 +84,11 @@ async def post_request(request: Prompt):
         status_code=error.code,
         detail=error.message)
   
-  except HTTPException as http_exc:
-    raise http_exc
+  except HTTPException:
+    raise HTTPException(
+      status_code=error.code,
+      detail=error.message)
+  
     
   except Exception as err:
     raise HTTPException(
