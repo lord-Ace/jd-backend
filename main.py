@@ -84,8 +84,9 @@ async def post_request(request: Prompt):
         status_code=int(error.code),
         detail=error.message)
   
-  except Exception:
+  '''except Exception:
     raise HTTPException(
       status_code=560,
       detail="unknown error occoured"
       )
+'''
