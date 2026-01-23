@@ -84,7 +84,9 @@ async def post_request(request: Prompt):
         status_code=error.get('code'),
         detail=error.get('message'))
   
-    
+  except HTTPException as http_exc:
+    raise http_exc
+  
   except Exception as err:
     raise HTTPException(
       status_code=500,
