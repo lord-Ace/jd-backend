@@ -82,7 +82,7 @@ async def post_request(request: Prompt):
     elif error:
       return{
         "status": "fail",
-        "error": error.code
+        "error": error.error
       }
   
     
