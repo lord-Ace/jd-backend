@@ -81,8 +81,8 @@ async def post_request(request: Prompt):
       "data": data}
     elif error:
       raise HTTPException(
-        status_code=400,
-        detail='error from gemini')
+        status_code=error.code,
+        detail=error.message)
   
   except HTTPException as http_exc:
     raise http_exc
