@@ -79,16 +79,15 @@ async def post_request(request: Prompt):
       return{
       "status": "success",
       "data": data}
-    else:
-      raise Exception
-  
-  except Exception as err:
-    if error:
+    elif error:
       raise HTTPException(
         status_code=error.status_code,
         detail=error.detail)
-    
-    else:
-      raise HTTPException(
-        status_code=560,
-        detail="an unknown error occoured")
+  
+  except HTTPException as http_exc:
+    raise http_exc
+  
+  except Exception as err:
+    raise HTTPException(
+      status_code=560,
+      detail="an unknown error occoured")
