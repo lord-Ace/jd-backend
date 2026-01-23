@@ -47,16 +47,16 @@ way, low=work('')
 if way:
   print('hurray')
 else:
-  print('lair')
+  print('lair')'''
 
 
 try:
   var = int(input('add a number: '))
   if var == 5:
-    raise ValueError('mumu man')
+    raise Exception
   print(5/var)
 except Exception:
-  print('wrong')'''
+  print('wrong')
   
 
 '''start_value = 0
@@ -106,7 +106,7 @@ data, error = response(question=request.prompt,
       )'''
       
       
-      @app.post("/analyse/")
+'''      @app.post("/analyse/")
 async def post_request(request: Prompt):
   try:
     data, error = special_func(request.prompt)
@@ -125,4 +125,4 @@ async def post_request(request: Prompt):
     raise HTTPException(
       status_code=600,
       detail="unknown error occoured"
-      )
+      )'''
