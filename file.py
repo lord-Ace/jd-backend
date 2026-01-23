@@ -50,13 +50,13 @@ else:
   print('lair')'''
 
 
-try:
+'''try:
   var = int(input('add a number: '))
   if var == 5:
     raise Exception
   print(5/var)
 except Exception:
-  print('wrong')
+  print('wrong')'''
   
 
 '''start_value = 0
@@ -126,3 +126,9 @@ async def post_request(request: Prompt):
       status_code=600,
       detail="unknown error occoured"
       )'''
+      
+data = {
+  "name": "bola",
+  "age": 49
+}
+print(data.get('name'))

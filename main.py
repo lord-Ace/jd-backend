@@ -80,10 +80,9 @@ async def post_request(request: Prompt):
       "status": "success",
       "data": data}
     elif error:
-      return{
-        "status": "fail",
-        "error": error.error
-      }
+      raise HTTPException(
+        status_code=error.get('code'),
+        detail=error.get('message'))
   
     
   except Exception as err:
