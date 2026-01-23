@@ -81,8 +81,9 @@ async def post_request(request: Prompt):
       "data": data}
     elif error:
       return{
-        "status_code": error.code,
-        "detail": error.message}
+        "status": "fail",
+        "error": error
+      }
   
     
   except Exception as err:
