@@ -41,14 +41,14 @@ app.add_middleware(
 )
 
 def special_func(param):
+  client = genai.Client()
   try:
-    client = genai.Client()
     response = client.models.generate_content(
       model="gemini-2.5-flash",
       contents=param)
     
     if not response.text:
-      raise ValueError('Unexpected End Of Output Try Again')
+      raise ValueError('unable to return output. Check your prompt and try again')
     
     output = response.text
     return output, None
