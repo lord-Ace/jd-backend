@@ -41,8 +41,8 @@ app.add_middleware(
 )
 
 def special_func(param):
-  client = genai.Client()
   try:
+    client = genai.Client()
     response = client.models.generate_content(
       model="gemini-2.5-flash",
       contents=param)
