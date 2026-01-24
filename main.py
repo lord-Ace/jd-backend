@@ -41,8 +41,8 @@ app.add_middleware(
 )
 
 def special_func(param):
+  client = genai.Client()
   try:
-    client = genai.Client()
     response = client.models.generate_content(
       model="gemini-2.5-flash",
       contents=param)
@@ -82,7 +82,7 @@ async def post_request(request: Prompt):
     elif error:
       return{
         "status": "failed",
-        "error": str(type(error))
+        "error": str(type(error)
       }
   
   except HTTPException as http_exc:
