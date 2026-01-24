@@ -46,10 +46,6 @@ def special_func(param):
     response = client.models.generate_content(
       model="gemini-2.5-flash",
       contents=param)
-    
-    if not response.text:
-      raise ValueError('unable to return output. Check your prompt and try again')
-    
     output = response.text
     return output, None
     
