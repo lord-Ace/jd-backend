@@ -81,7 +81,7 @@ async def post_request(request: Prompt):
       "data": data}
     elif error:
       return{
-        "status_code":error.get('code', 250),
+        "status_code":error.get('code', 400),
         "detail":error.get('message', 'missing')}
   
   except HTTPException as http_exc:
