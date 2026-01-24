@@ -82,7 +82,7 @@ async def post_request(request: Prompt):
     elif error:
       return{
         "status": "failed",
-        "error": str(error)
+        "error": error
       }
   
   except HTTPException as http_exc:
