@@ -132,3 +132,4 @@ data = {
   "age": 49
 }
 print(data.get('name'))
+print(list(data.keys()))
