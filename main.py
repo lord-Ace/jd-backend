@@ -6,7 +6,6 @@ from typing import Any, Type, List
 from google import genai
 from google.genai import errors
 from gemini import response
-import re
 
 #loaded json file containing LLM configuration
 with open("config.json", "r") as c:
@@ -41,8 +40,8 @@ app.add_middleware(
 )
 
 def special_func(param):
-  client = genai.Client()
   try:
+    client = genai.Client()
     response = client.models.generate_content(
       model="gemini-2.5-flash",
       contents=param)
