@@ -47,7 +47,7 @@ way, low=work('')
 if way:
   print('hurray')
 else:
-  print('lair')'''
+print('lair')'''
 
 
 '''try:
