@@ -45,8 +45,9 @@ def special_func(param):
     response = client.models.generate_content(
       model="gemini-2.5-flash",
       contents=param)
-    output = response.text
-    return output, None
+    if response.text
+      output = response.text
+      return output, None
     
   except errors.ClientError as error:
     return None, error
