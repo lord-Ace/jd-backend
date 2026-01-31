@@ -2,7 +2,7 @@ import json
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, ValidationError, Field, field_validator
-from typing import Any, Type, List
+from typing import Any, Type, List, Optional
 from google import genai
 from google.genai import errors
 from gemini import response
@@ -12,16 +12,19 @@ with open("config.json", "r") as c:
   config = json.load(c)
 
 #defined output schema for the LLM response
-class JDAnalysisOutput(BaseModel):
-  job_title: str = Field(description="Title of the job from the job description")
-  overview: str = Field(description="an overview/summary of the job description")
-  critical_skills: List[str]
-  non_obvious_essential_skills: List[str]
-  additional_skills: List[str]
-  important_keywords: List[str]
-  tips: List[str]
+class SongPattern(BaseModel):
+  name: str = Field(description="Name of the song.")
+  artist: str = Field(description="Artist of the song.")
+  youtubemusic_link: str = Field(description="Optional YouTube music link for the song.")
+  apple_music_link: str = Field(description="Optional Apple Music link for the song.")
+  spotify_link: str = Field(description="Optional Spotify link for the song.")
+class Output(BaseModel):
+  mood: str = Field(description="The mood of the user.")
+  aim: str = Field(description="vibe or reset")
+  songs: List[SongPattern]
 
-app = FastAPI(title="JD Analysis")
+
+app = FastAPI(title="vibe check")
 
 #cors
 origins = [
@@ -38,53 +41,40 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
-
-def special_func(param):
-  client = genai.Client()
-  try:
-    response = client.models.generate_content(
-      model="gemini-2.5-flash",
-      contents=param)
-    if response.text
-      output = response.text
-      return output, None
-    
-  except errors.ClientError as error:
-    return None, error
-  except errors.ServerError as error:
-    return None, error
-  except Exception as error:
-    return None, error
-
+  
 #prompt input schema
 class Prompt(BaseModel):
-    prompt: str
-  
+    mood: str
+    aim: str
 @app.get("/")
 def baseURL():
   return{
     "status": "success",
-    "Message": "Welcome to JD Analyser"
+    "Message": "Welcome to the server"
   }
   
 @app.post("/analyse/")
 async def post_request(request: Prompt):
   try:
-    data, error = special_func(request.prompt)
+    data, error = response(
+      question=request.mood + " " + request.aim,
+      output_schema=Output,
+      instructions=config
+    )
     if data:
       return{
       "status": "success",
       "data": data}
     elif error:
-      return{
-        "status": "failed",
-        "error": str(type(error))
-      }
+      raise HTTPException(
+        status_code=getattr(error, "code", 440),
+        detail={
+          "status_code": getattr(error, "code", 449),
+          "message": getattr(error, "message", str(error))
+          })
   
-  except HTTPException as http_exc:
-    raise HTTPException(
-      status_code=error.get('code'),
-      detail=error.get('message'))
+  except HTTPException as exc:
+    raise exc
   
   except Exception as err:
     raise HTTPException(

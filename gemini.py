@@ -1,20 +1,19 @@
-from typing import Optional, Dict, Any, Type
+from typing import Optional, Dict, Any, Tuple, Type
 from pydantic import BaseModel, ValidationError
 from google import genai
-from google.genai import errors
-from google.genai import types
+from google.genai import errors, types
 
 # The function takes in a prompt and returns response as a json format
 def response(
     question: str,
     output_schema: Type[BaseModel],
     instructions: Optional[Dict[str, Any]] = None,
-):
+)-> Tuple[Optional[BaseModel], Optional[Exception]]:
     # Input validation
     if not question or not question.strip():
-        raise ValueError("Question parameter cannot be empty")
+        return None, ValueError("Question parameter cannot be empty")
     if not issubclass(output_schema, BaseModel):
-        raise ValueError("output_schema must be a Pydantic BaseModel subclass")
+        return None, ValueError("output_schema must be a Pydantic BaseModel subclass")
 
     # values initialization
     config_instructions = instructions or {}
@@ -37,30 +36,22 @@ def response(
             config=types.GenerateContentConfig(
                 system_instruction=system_instruction,
                 temperature=temperature,
-                top_p=top_p,
-                top_k=top_k,
-                max_output_tokens=max_output_tokens,
+                # top_p=top_p,
+                # top_k=top_k,
+                # max_output_tokens=max_output_tokens,
                 response_mime_type="application/json",
                 response_json_schema=output_schema.model_json_schema(),
             ),
             contents=question
         )
-        output = output_schema.model_validate_json(response.text)
-        
-        if not output:
-          raise ValueError('Unexpected End Of Output Try Again')
-          
-        return output, None
-
-    except errors.ClientError as error:
-      return None, error
-      
-    except errors.ServerError as error:
-      return None, error
-      
+        if response.text:
+          output = output_schema.model_validate_json(response.text)
+          return output, None
+    
+    except (errors.ClientError, errors.ServerError) as e:
+      return None, e
     except ValidationError as e:
-      return None, Exception(f"Invalid response format: {str(e)}")
-    except Exception as error:
-      goon="lolly"
-      return None, goon
+      return None, e
+    except Exception as e:
+      return None, e
       
