@@ -1,5 +1,5 @@
 {
-  "system_instruction": "you're a helpful assistant",
+  "system_instruction": "",
   "temperature": 0.2,
   "top_p": 0.95,
   "top_k": 40,
