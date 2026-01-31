@@ -30,7 +30,7 @@ def response(
 
     # api calling
     try:
-        client = genai.Client(api_key="AIzaSyDhjcyOO8mUX1ahPsegQezEng271VqRqIg")
+        client = genai.Client()
         response = client.models.generate_content(
             model="gemini-2.5-flash",
             config=types.GenerateContentConfig(
