@@ -34,6 +34,7 @@ def response(
                 system_instruction=system_instruction,
                 temperature=temperature,
                 max_output_tokens=config_instructions.get('max_output_tokens'),
+                top_p=config_instructions.get('top_p'),
                 response_mime_type="application/json",
                 response_json_schema=output_schema.model_json_schema(),
             ),
