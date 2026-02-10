@@ -15,7 +15,7 @@ with open("config.json", "r") as c:
 
 class SongPattern(BaseModel):
   name: str = Field(description="Name of the song.")
-  # cover: str = Field(description="cover image of the song.")
+  cover: str = Field(description="cover image of the song.")
   artist: str = Field(description="Artist of the song.")
   youtubemusic_link: str = Field(description="playable YouTube music link for the song.")
   apple_music_link: str = Field(description="playable Apple Music link for the song.")
@@ -24,7 +24,7 @@ class SongPattern(BaseModel):
 class Output(BaseModel):
   mood: str = Field(description="The mood of the user.")
   aim: str = Field(description="vibe or reset")
-  songs: List[SongPattern]
+  # songs: List[SongPattern]
   order: str = Field(description="Optional Listening Flow or Tip")
 
 
