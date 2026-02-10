@@ -23,11 +23,8 @@ def response(
     )
     temperature = config_instructions.get("temperature", 1.0)
 
-    # for other system instructions not specified
-    for key, value in config_instructions.items():
-        if key not in ("system_instruction", "temperature"):
-            config_instructions[key] = value
-
+    # for other system instructions not specified add it manually
+    
     # api calling
     try:
         client = genai.Client()
@@ -36,9 +33,7 @@ def response(
             config=types.GenerateContentConfig(
                 system_instruction=system_instruction,
                 temperature=temperature,
-                # top_p=top_p,
-                # top_k=top_k,
-                # max_output_tokens=max_output_tokens,
+                max_output_tokens=config_instructions.get('max_output_tokens'),
                 response_mime_type="application/json",
                 response_json_schema=output_schema.model_json_schema(),
             ),

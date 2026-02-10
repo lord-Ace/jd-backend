@@ -12,12 +12,15 @@ with open("config.json", "r") as c:
   config = json.load(c)
 
 #defined output schema for the LLM response
+
 class SongPattern(BaseModel):
   name: str = Field(description="Name of the song.")
+  cover: str = Field(description= "cover image of the song")
   artist: str = Field(description="Artist of the song.")
-  youtubemusic_link: str = Field(description="Optional YouTube music link for the song.")
-  apple_music_link: str = Field(description="Optional Apple Music link for the song.")
-  spotify_link: str = Field(description="Optional Spotify link for the song.")
+  youtubemusic_link: str = Field(description=" playable YouTube music link for the song.")
+  apple_music_link: str = Field(description=" playable Apple Music link for the song.")
+  spotify_link: str = Field(description=" playable Spotify link for the song.")
+  
 class Output(BaseModel):
   mood: str = Field(description="The mood of the user.")
   aim: str = Field(description="vibe or reset")
@@ -58,7 +61,7 @@ def baseURL():
 async def post_request(request: Prompt):
   try:
     data, error = response(
-      question=request.mood + " " + request.aim,
+      question=f"mood: {request.mood} aim: {request.aim}",
       output_schema=Output,
       instructions=config
     )
@@ -70,7 +73,7 @@ async def post_request(request: Prompt):
       raise HTTPException(
         status_code=getattr(error, "code", 440),
         detail={
-          "status_code": getattr(error, "code", 449),
+          "status_code": getattr(error, "code", 440),
           "message": getattr(error, "message", str(error))
           })
   
