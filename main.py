@@ -24,7 +24,7 @@ class SongPattern(BaseModel):
 class Output(BaseModel):
   mood: str = Field(description="The mood of the user.")
   aim: str = Field(description="vibe or reset")
-  # songs: List[SongPattern]
+  songs: List[SongPattern]
   order: str = Field(description="Optional Listening Flow or Tip")
 
 
