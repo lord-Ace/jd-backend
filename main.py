@@ -15,17 +15,17 @@ with open("config.json", "r") as c:
 
 class SongPattern(BaseModel):
   name: str = Field(description="Name of the song.")
-  cover: str = Field(description="cover image of the song.")
   artist: str = Field(description="Artist of the song.")
-  youtubemusic_link: str = Field(description="playable YouTube music link for the song.")
-  apple_music_link: str = Field(description="playable Apple Music link for the song.")
-  spotify_link: str = Field(description="playable Spotify link for the song.")
+  youtubemusic_link: str = Field(description="Direct youtubemusic track link.")
+  apple_music_link: str = Field(description="direct Apple Music track link for the song.")
+  spotify_link: str = Field(description="direct Spotify track link for the song.")
+  cover: str = Field(description="Direct image link to official album art")
   
 class Output(BaseModel):
   mood: str = Field(description="The mood of the user.")
   aim: str = Field(description="vibe or reset")
   songs: List[SongPattern]
-  order: str = Field(description="Optional Listening Flow or Tip")
+  order: str = Field(description="Optional Listening Flow and enhancement Tip")
 
 
 app = FastAPI(title="vibe check")
