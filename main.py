@@ -16,9 +16,9 @@ with open("config.json", "r") as c:
 class SongPattern(BaseModel):
   name: str = Field(description="Name of the song.")
   artist: str = Field(description="Artist of the song.")
-  youtubemusic_link: str = Field(description="Direct youtubemusic track link.")
-  apple_music_link: str = Field(description="direct Apple Music track link for the song.")
-  spotify_link: str = Field(description="direct Spotify track link for the song.")
+  youtubemusic_link: str = Field(description="youtubemusic ID of track.")
+  apple_music_link: str = Field(description="Apple Music ID of track ")
+  spotify_link: str = Field(description="direct Spotify track ID for the song.")
   cover: str = Field(description="Direct image link to official album art")
   
 class Output(BaseModel):
