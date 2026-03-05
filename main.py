@@ -35,6 +35,7 @@ origins = [
     "http://localhost:3000", 
     "http://127.0.0.1:5500",
     "http://localhost:8158",
+    "https://vibe-check-olive-six.vercel.app/",
     "http://localhost:5173"
     
 ]
